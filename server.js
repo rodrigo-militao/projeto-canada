@@ -36,8 +36,6 @@ require("./app/routes/shipments.routes.js")(app);   //>API
 
 app.get("/", (req, res) => {
   res.json({ message: "Welcome to my application. - ttpsystemcali" });
-  const ipInfo = req;
-  console.log(ipInfo);
 });
 
 var staticPath = path.resolve(__dirname, "");
