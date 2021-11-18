@@ -6,7 +6,11 @@ var request = require('request');
 const Monthly_amount = function (monthly_amount) {
   this.id = monthly_amount.id;
 };
-
+/*=====================================================================================
+ =================================================================== Quantia Mensal ===
+  run_sync_shipments_month_amount   (customer_id)
+  run_sync_shipments_avg_customers  (customer_id)
+=======================================================================================*/
 Monthly_amount.findById = (monthly_amount, result) => {
 
   const querys = [

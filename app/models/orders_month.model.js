@@ -6,7 +6,12 @@ var request = require('request');
 const Orders_month = function (orders_month) {
   this.id = orders_month.id;
 };
-
+/*=====================================================================================
+ =================================================================== Pedidos do mês ===
+  run_sync_shipments_qty_last_month   (customer_id)
+  run_sync_shipments_qty_this_month   (customer_id)
+  run_sync_shipments_qty_orders_month (customer_id)
+=======================================================================================*/
 Orders_month.findById = (orders_month, result) => {
 
   const querys = [ //${orders_month.body.id}

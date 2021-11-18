@@ -8,7 +8,12 @@ var request = require('request');
 const Avg_amount = function (avg_amount) {
   this.id = avg_amount.id;
 };
-
+/*=====================================================================================
+ ================================================================= Quantidade média ===
+  run_sync_shipments_last_month   (customer_id)
+  run_sync_shipments_this_month   (customer_id)
+  un_sync_shipments_avg_customers (customer_id)
+=======================================================================================*/
 Avg_amount.findById = (avg_amount, result) => {
 
   const querys = [                         /* queries prior to heroku >>>
