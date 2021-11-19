@@ -29,7 +29,7 @@ Avg_amount.findById = (avg_amount, result) => {
   let array_results = []
   let index = 0
   for (const query in querys) {
-   
+
     const json = querys[query].toString()
     const options = {
       method: 'POST',
@@ -44,15 +44,18 @@ Avg_amount.findById = (avg_amount, result) => {
     };
 
     request(options, function (error, response, body) {
-      if (error) throw new Error(error);    
+      if (error)
+        throw new Error(error);
+      result(null, error);
+      console.log(error)
       array_results[index] = body
       index++;
       console.log(body)
-      if (index == 3){result(null, array_results);}
+      if (index == 3) { result(null, array_results); }
     });
-    
+
   }
-  
+
 };
 
 module.exports = Avg_amount;
