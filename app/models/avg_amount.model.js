@@ -45,9 +45,10 @@ Avg_amount.findById = (avg_amount, result) => {
 
     request(options, function (error, response, body) {
       if (error)
-        throw new Error(error);
-      result(null, error);
+        // throw new Error(error);
+        result(null, error);
       console.log(error)
+
       array_results[index] = body
       index++;
       console.log(body)
