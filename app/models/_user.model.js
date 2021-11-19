@@ -6,6 +6,7 @@ const user = function(user) {
   this.customer_name = user.customer_name;
   this.password = user.password;
   this.rule = user.rule;
+  this.email = user.email;
   this.date_time_created = user.date_time_created;
 };
 

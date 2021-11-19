@@ -28,6 +28,7 @@ exports.create = (req, res) => {
         customer_name: req.body.customer_name,
         password: req.body.password,
         rule: req.body.rule,
+        email: req.body.email,
         date_time_created: datetime
     });
   
