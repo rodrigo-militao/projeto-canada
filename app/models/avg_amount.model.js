@@ -15,7 +15,7 @@ const Avg_amount = function (avg_amount) {
   un_sync_shipments_avg_customers (customer_id)
 =======================================================================================*/
 Avg_amount.findById = (avg_amount, result) => {
-
+  console.log(avg_amount.body)
   const querys = [                         /* queries prior to heroku >>>
     `SELECT AVG(ds_bill_charge) AS total_amount FROM [DBA].disp_ship WHERE (YEAR(delbydate) = YEAR(GETDATE())) AND (MONTH(delbydate) = MONTH(GETDATE())-1) AND ds_status IN('K','N','Q','T','W') and ds_billto_id = ${avg_amount.body.id}`,
     `SELECT AVG(ds_bill_charge) AS total_amount FROM [DBA].disp_ship WHERE (YEAR(delbydate) = YEAR(GETDATE())) AND (MONTH(delbydate) = MONTH(GETDATE())) AND ds_status IN('K','N','Q','T','W') and ds_billto_id = ${avg_amount.body.id}`,
@@ -28,8 +28,8 @@ Avg_amount.findById = (avg_amount, result) => {
 
   let array_results = []
   let index = 0
-  for (const query in querys) {
-   
+  for (const query in querys) {//
+
     const json = querys[query].toString()
     const options = {
       method: 'POST',
@@ -44,15 +44,19 @@ Avg_amount.findById = (avg_amount, result) => {
     };
 
     request(options, function (error, response, body) {
-      if (error) throw new Error(error);    
+      if (error)
+        // throw new Error(error);
+        result(null, error);
+      console.log(error)
+
       array_results[index] = body
       index++;
       console.log(body)
-      if (index == 3){result(null, array_results);}
+      if (index == 3) { result(null, array_results); }
     });
-    
+
   }
-  
+
 };
 
 module.exports = Avg_amount;

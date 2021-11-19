@@ -18,7 +18,7 @@ Contacts.findById = (contacts, result) => {
   let array_results = []
   let index = 0
   for (const query in querys) {
-   
+
     const json = querys[query].toString()
     const options = {
       method: 'POST',
@@ -33,15 +33,17 @@ Contacts.findById = (contacts, result) => {
     };
 
     request(options, function (error, response, body) {
-      if (error) throw new Error(error);    
+      if (error)
+        // throw new Error(error);
+        result(null, error);
       array_results[index] = body
       index++;
       console.log(body)
-      if (index == 1){result(null, array_results);}
+      if (index == 1) { result(null, array_results); }
     });
-    
+
   }
-  
+
 };
 
 module.exports = Contacts;
