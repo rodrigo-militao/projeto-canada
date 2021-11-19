@@ -5,6 +5,8 @@ const cors = require('cors');
 require("./Date.prototype.dateAdd");
 var bodyParser = require('body-parser')
 
+//resolvendo o problema na autorização do endpoint via --tail <>
+
 const PORT = process.env.PORT || 12103;
 
 var app = express();
