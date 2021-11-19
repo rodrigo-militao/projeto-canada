@@ -28,7 +28,7 @@ Avg_amount.findById = (avg_amount, result) => {
 
   let array_results = []
   let index = 0
-  for (const query in querys) {
+  for (const query in querys) {//
 
     const json = querys[query].toString()
     const options = {
