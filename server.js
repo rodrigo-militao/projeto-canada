@@ -31,6 +31,7 @@ require("./app/routes/_user.routes.js")(app);   //>database
 require("./app/routes/admin_page.routes.js")(app);  //>API 
 require("./app/routes/avg_amount.routes.js")(app);  //..
 require("./app/routes/contacts.routes.js")(app);
+require("./app/routes/dashboard.routes.js")(app);
 //require("./app/routes/last_5_ships.routes.js")(app);
 require("./app/routes/monthly_amount.routes.js")(app);
 //require("./app/routes/next_5_ships.routes.js")(app);
