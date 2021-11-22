@@ -3,7 +3,7 @@ var path = require("path");
 var express = require("express");
 const cors = require('cors');
 require("./Date.prototype.dateAdd");
-var bodyParser = require('body-parser')
+var bodyParser = require('body-parser')//
 
 //resolvendo o problema na autorização do endpoint via --tail <>
 
