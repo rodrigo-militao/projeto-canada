@@ -41,4 +41,23 @@ exports.create = (req, res) => {
         });
       else res.send(data);
     });
-  };
+};
+
+exports.user_check = (req, res) => {
+
+  user.check(req.body, (err, data) => {
+    if (err) {
+      if (err.kind === "not_found") {
+        res.status(404).send({
+          message: `Nao encontrada.`
+        });
+      } else {
+        res.status(500).send({
+          message: "Erro na solicitação" + req.body
+        });
+      }
+    } else res.send(data);
+  });
+};
+
+

@@ -1,7 +1,7 @@
 const sql = require("./db.js");
 
 // constructor
-const user = function(user) {
+const User = function(user) {
   this.customer_id = user.customer_id;
   this.customer_name = user.customer_name;
   this.password = user.password;
@@ -10,7 +10,7 @@ const user = function(user) {
   this.date_time_created = user.date_time_created;
 };
 
-user.create = (newuser, result) => {
+User.create = (newuser, result) => {
   sql.query("INSERT INTO db_shipping_cali.tbl_register SET ?", newuser, (err, res) => {
     if (err) {
       console.log("error: ", err);
@@ -23,5 +23,24 @@ user.create = (newuser, result) => {
   });
 };
 
+User.check = (data, result) => {
+  sql.query(`select customer_id, email, customer_name, rule from db_shipping_cali.tbl_register where customer_id = ? and password = ?;`, [data.email, data.password] , (err, res) => {
+    //se ocorrer um erro
+    if (err) {
+      console.log("error: ", err);
+      result(err, null);
+      return;
+    }
+    //se a busca suceder
+    if (res.length) {
+      console.log("Succeded!", res);
+      result(null, res[0]);
+      return;
+    }
 
-module.exports = user;
+    result({ kind: "not_found" }, null);
+
+  });
+};
+
+module.exports = User;

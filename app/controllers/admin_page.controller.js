@@ -1,17 +1,20 @@
 const adminData = require("../models/admin_page.model");
 
-// Retrieve all Customers from the database.
-exports.findAll = (req, res) => {
-  // console.log(req);
-
-  adminData.findById(req, (err, data) => {
-
-    if (err)
-      res.status(500).send({
-        message:
-          err.message || "Some error occurred while retrieving customers."
-      });
-    else res.send(data);
-    
-  });
+exports.findAll = async (req, res) => {
+  
+  try {
+    const adminres = await adminData.findById(req);
+    const response = {
+      "ships_open": adminres[0],
+      "ship_customer": adminres[1]
+    }
+  
+    res.send(response);
+  }
+  catch (err) {
+    res.status(500).send({
+      message:
+        err.message || "Some error occurred while retrieving admin page."
+    });
+  }
 };

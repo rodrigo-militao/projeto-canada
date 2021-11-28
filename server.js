@@ -50,3 +50,52 @@ app.use(express.static(staticPath));
 server.listen(PORT, function () {
   console.log("Server is listening at http://localhost:" + PORT);
 });
+
+/*==============================================================================================
+=================================================================================== SEND MAIL ==*/
+
+exports.send_mail = async (mail, text, opcao) => {
+
+  let testAccount = await nodemailer.createTestAccount();
+  testAccount.user = ""
+  testAccount.pass = ""
+
+  // create reusable transporter object using the default SMTP transport
+  let transporter = nodemailer.createTransport({
+    host: "smtp.mailgun.org",
+    port: 587,
+    secure: false, // true for 465, false for other ports
+    auth: {
+      user: testAccount.user, // generated ethereal user
+      pass: testAccount.pass, // generated ethereal password
+    },
+  });
+
+  switch(opcao) {
+    case "sendtest":
+      text = 'test succeded!'
+      console.log('email disparado: ' + text)
+      break;
+    case "customer":
+      text = 'Hello Customer!'
+      console.log('email disparado: ' + text)
+    break;
+    
+    default:
+      // code block
+  }
+
+  // send mail with defined transport object
+  let info = await transporter.sendMail({
+    from: '', 
+    to: mail, 
+    subject: "Hello ✔", 
+    text: text, 
+    html: "<b>Hello world?</b>", 
+  }).then(message => {
+    console.log(message); //tratamento necessário para o transporter funcionar, não remover
+  }).catch(err => {
+    console.log(err); //tratamento necessário para o transporter funcionar, não remover
+  })
+
+};
