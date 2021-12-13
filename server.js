@@ -7,7 +7,7 @@ var bodyParser = require('body-parser')//
 
 //resolvendo o problema na autorização do endpoint via --tail <>
 
-const PORT = process.env.PORT || 12103;
+const PORT = process.env.PORT || 80;
 
 var app = express();
 app.use(cors())
