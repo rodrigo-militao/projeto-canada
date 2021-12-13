@@ -10,10 +10,10 @@ const Next_5_ships = function (next_5_ships) {
   this.id = next_5_ships.id;
 };
 
-Next_5_ships.findById = async (next_5_ships, result) => {
+Next_5_ships.findById = async (req) => {
 
   const querys = [
-    `SELECT top 5 ds_id, (SELECT top 1 de_arrdate FROM [DBA].disp_events WHERE de_shipment_id = ds_id and de_site = ds_findest_id and de_arrdate IS NOT NULL ORDER BY de_ship_seq ASC) AS del_date, (CASE WHEN ds_status = 'K' THEN 'OPEN' WHEN ds_status = 'N' THEN 'AUTHORIZED' WHEN ds_status = 'Q' THEN 'AUDIT REQ' WHEN ds_status = 'T' THEN 'AUDITED' WHEN ds_status = 'W' THEN 'BILLED' ELSE 'NOT FOUND' END) AS ship_status FROM [DBA].disp_ship WHERE ds_billto_id = ${next_5_ships.body.id} ORDER BY del_date DESC`
+    `SELECT top 5 ds_id, (SELECT top 1 de_arrdate FROM [DBA].disp_events WHERE de_shipment_id = ds_id and de_site = ds_findest_id and de_arrdate IS NOT NULL ORDER BY de_ship_seq ASC) AS del_date, (CASE WHEN ds_status = 'K' THEN 'OPEN' WHEN ds_status = 'N' THEN 'AUTHORIZED' WHEN ds_status = 'Q' THEN 'AUDIT REQ' WHEN ds_status = 'T' THEN 'AUDITED' WHEN ds_status = 'W' THEN 'BILLED' ELSE 'NOT FOUND' END) AS ship_status FROM [DBA].disp_ship ${req.body.id != "Admin" ? `WHERE ds_billto_id = ${req.body.id}` : ""} ORDER BY del_date DESC`
   ]
 
   let array_results = []

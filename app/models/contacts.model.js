@@ -9,10 +9,10 @@ const Contacts = function (contacts) {
   this.id = contacts.id;
 };
 
-Contacts.findById = (contacts, result) => {
+Contacts.findById = (req, result) => {
 
   const querys = [
-    `SELECT ct_fn, ct_ln, TRIM(ct_dirphone) AS phone_num, ct_emailaddress FROM dba.contacts where ct_co = ${contacts.body.id}`
+    `SELECT ct_fn, ct_ln, TRIM(ct_dirphone) AS phone_num, ct_emailaddress FROM dba.contacts ${req.body.id != "Admin" ? `where ct_co = ${req.body.id}`: ""}`
   ]
 
   let array_results = []
@@ -38,7 +38,6 @@ Contacts.findById = (contacts, result) => {
         result(null, error);
       array_results[index] = body
       index++;
-      console.log(body)
       if (index == 1) { result(null, array_results); }
     });
 

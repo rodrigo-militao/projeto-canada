@@ -10,10 +10,10 @@ const last_5_ships = function (last_5_ships) {
   this.id = last_5_ships.id;
 };
 
-last_5_ships.findById = async (last_5_ships, result) => {
+last_5_ships.findById = async (req) => {
 
   const querys = [
-    `SELECT top 5 ds_pronum, ds_bill_date, (CASE WHEN ds_status = 'K' THEN 'OPEN' WHEN ds_status = 'N' THEN 'AUTHORIZED' WHEN ds_status = 'Q' THEN 'AUDIT REQ' WHEN ds_status = 'T' THEN 'AUDITED' WHEN ds_status = 'W' THEN 'BILLED' ELSE 'NOT FOUND' END) AS ship_status  FROM dba.disp_ship where ds_billto_id = ${last_5_ships.body.id} ORDER BY ds_bill_date DESC`   
+    `SELECT top 5 ds_pronum, ds_bill_date, (CASE WHEN ds_status = 'K' THEN 'OPEN' WHEN ds_status = 'N' THEN 'AUTHORIZED' WHEN ds_status = 'Q' THEN 'AUDIT REQ' WHEN ds_status = 'T' THEN 'AUDITED' WHEN ds_status = 'W' THEN 'BILLED' ELSE 'NOT FOUND' END) AS ship_status  FROM dba.disp_ship ${req.body.id != "Admin" ? `where ds_billto_id = ${req.body.id}` : ""} ORDER BY ds_bill_date DESC`   
   ]
 
   let array_results = []

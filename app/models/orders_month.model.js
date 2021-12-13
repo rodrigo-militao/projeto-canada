@@ -41,7 +41,6 @@ Orders_month.findById = (orders_month, result) => {
       if (error) throw new Error(error);    
       array_results[index] = body
       index++;
-      console.log(body)
       if (index == 3){result(null, array_results);}
     });
   }
