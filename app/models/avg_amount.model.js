@@ -1,31 +1,21 @@
 const fetch = require('node-fetch');
 
-
-// constructor
 const Avg_amount = function (avg_amount) {
   this.id = avg_amount.id;
 };
-// QUERY DOS CARDS DO DASHBOARD
-/*=====================================================================================
- ================================================================= Quantidade média ===
-  run_sync_shipments_last_month   (customer_id)
-  run_sync_shipments_this_month   (customer_id)
-  un_sync_shipments_avg_customers (customer_id)
-=======================================================================================*/
-Avg_amount.findById = async (req) => {
 
-  const querys = [                         /* queries prior to heroku >>>
-    `SELECT AVG(ds_bill_charge) AS total_amount FROM [DBA].disp_ship WHERE (YEAR(delbydate) = YEAR(GETDATE())) AND (MONTH(delbydate) = MONTH(GETDATE())-1) AND ds_status IN('K','N','Q','T','W') and ds_billto_id = ${req.body.id}`,
-    `SELECT AVG(ds_bill_charge) AS total_amount FROM [DBA].disp_ship WHERE (YEAR(delbydate) = YEAR(GETDATE())) AND (MONTH(delbydate) = MONTH(GETDATE())) AND ds_status IN('K','N','Q','T','W') and ds_billto_id = ${req.body.id}`,
-    `SELECT AVG(ds_bill_charge) AS total_amount FROM [DBA].disp_ship WHERE (YEAR(delbydate) = YEAR(GETDATE())) AND ds_status IN('K','N','Q','T','W') and ds_billto_id <> ${req.body.id}`
-  */
-    `SELECT YEAR((SELECT top 1 de_arrdate FROM [DBA].disp_events WHERE de_shipment_id = ds_id and de_site = ds_findest_id and de_arrdate IS NOT NULL ORDER BY de_ship_seq ASC)) AS year_del_date, MONTH((SELECT top 1 de_arrdate FROM [DBA].disp_events WHERE de_shipment_id = ds_id and de_site = ds_findest_id and de_arrdate IS NOT NULL ORDER BY de_ship_seq ASC)) AS month_del_date, AVG(ds_bill_charge) AS total_amount FROM [DBA].disp_ship WHERE (year_del_date = YEAR(GETDATE())) AND (month_del_date = MONTH(GETDATE())-1) AND ds_status IN('K','N','Q','T','W') ${req.body.id != "Admin" ? `and ds_billto_id = ${req.body.id}` : ""} GROUP BY year_del_date, month_del_date`,
-    `SELECT YEAR((SELECT top 1 de_arrdate FROM [DBA].disp_events WHERE de_shipment_id = ds_id and de_site = ds_findest_id and de_arrdate IS NOT NULL ORDER BY de_ship_seq ASC)) AS year_del_date, MONTH((SELECT top 1 de_arrdate FROM [DBA].disp_events WHERE de_shipment_id = ds_id and de_site = ds_findest_id and de_arrdate IS NOT NULL ORDER BY de_ship_seq ASC)) AS month_del_date, AVG(ds_bill_charge) AS total_amount FROM [DBA].disp_ship WHERE (year_del_date = YEAR(GETDATE())) AND (month_del_date = MONTH(GETDATE())) AND ds_status IN('K','N','Q','T','W') ${req.body.id != "Admin" ? `and ds_billto_id = ${req.body.id}` : ""} GROUP BY year_del_date, month_del_date`,
+Avg_amount.findById = async (req) => {
+  //const avg_last_month = avg_amount_response[0]
+  //const avg_this_month = avg_amount_response[1]
+  //const avg_customers = avg_amount_response[2]
+
+  const querys = [                         
+    `SELECT YEAR((SELECT top 1 de_arrdate FROM [DBA].disp_events WHERE de_shipment_id = ds_id and de_site = ds_findest_id and de_arrdate IS NOT NULL ORDER BY de_ship_seq ASC)) AS year_del_date, MONTH((SELECT top 1 de_arrdate FROM [DBA].disp_events WHERE de_shipment_id = ds_id and de_site = ds_findest_id and de_arrdate IS NOT NULL ORDER BY de_ship_seq ASC)) AS month_del_date, COUNT(ds_bill_charge) AS total_qty FROM [DBA].disp_ship WHERE (year_del_date = YEAR(GETDATE())) AND (month_del_date = MONTH(GETDATE())-1) AND ds_status IN('K','N','Q','T','W') ${req.body.id != "Admin" ? `and ds_billto_id = ${req.body.id}` : ""} GROUP BY year_del_date, month_del_date`,
+    `SELECT YEAR((SELECT top 1 de_arrdate FROM [DBA].disp_events WHERE de_shipment_id = ds_id and de_site = ds_findest_id and de_arrdate IS NOT NULL ORDER BY de_ship_seq ASC)) AS year_del_date, MONTH((SELECT top 1 de_arrdate FROM [DBA].disp_events WHERE de_shipment_id = ds_id and de_site = ds_findest_id and de_arrdate IS NOT NULL ORDER BY de_ship_seq ASC)) AS month_del_date, COUNT(ds_bill_charge) AS total_qty FROM [DBA].disp_ship WHERE (year_del_date = YEAR(GETDATE())) AND (month_del_date = MONTH(GETDATE())) AND ds_status IN('K','N','Q','T','W') ${req.body.id != "Admin" ? `and ds_billto_id = ${req.body.id}` : ""} GROUP BY year_del_date, month_del_date`,
     `SELECT YEAR((SELECT top 1 de_arrdate FROM [DBA].disp_events WHERE de_shipment_id = ds_id and de_site = ds_findest_id and de_arrdate IS NOT NULL ORDER BY de_ship_seq ASC)) AS year_del_date, AVG(ds_bill_charge) AS total_amount FROM [DBA].disp_ship WHERE (year_del_date = YEAR(GETDATE())) AND ds_status IN('K','N','Q','T','W') ${req.body.id != "Admin" ? `and ds_billto_id <> ${req.body.id}` : ""} GROUP BY year_del_date`
   ]
 
   let array_results = []
-  let index = 0
   for (const query in querys) {
    
     const json = querys[query].toString()

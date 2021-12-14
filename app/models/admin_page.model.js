@@ -8,7 +8,7 @@ AdminData.findById = async (req) => {
 
   const querys = [
     `SELECT ds_id, (SELECT co_name FROM [DBA].companies WHERE co_id = ds_billto_id) AS Customer, (SELECT co_name FROM [DBA].companies WHERE co_id = ds_origin_id) AS Origin, (SELECT co_name FROM [DBA].companies WHERE co_id = ds_findest_id) AS Desti, (CASE WHEN ds_status = 'K' THEN 'OPEN' WHEN ds_status = 'N' THEN 'AUTHORIZED' WHEN ds_status = 'Q' THEN 'AUDIT REQ' WHEN ds_status = 'T' THEN 'AUDITED' WHEN ds_status = 'W' THEN 'BILLED' ELSE 'NOT FOUND' END) AS ship_status  FROM [DBA].disp_ship WHERE ds_status IN('K','N','Q','T') ORDER BY ds_id ASC`,
-    `SELECT (SELECT co_name FROM [DBA].companies WHERE co_id = ds_billto_id) AS Customer, sum(ds_bill_charge) AS total_amount, count(ds_id) AS qty_tmps FROM [DBA].disp_ship WHERE ds_status IN('K','N','Q','T') GROUP BY Customer ORDER BY total_amount DESC`,
+    `SELECT (SELECT co_name FROM [DBA].companies WHERE co_id = ds_billto_id) AS Customer, sum(ds_bill_charge) AS total_amount, count(ds_id) AS qty_tmps FROM [DBA].disp_ship WHERE ds_status IN('K') GROUP BY Customer ORDER BY total_amount DESC`,
   ]
 
   let array_results = []

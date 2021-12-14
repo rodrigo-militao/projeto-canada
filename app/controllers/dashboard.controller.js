@@ -17,17 +17,15 @@ exports.findAll = async (req, res) => {
     const avg_customers = avg_amount_response[2]
     const monthly_data = monthly_amount_response[0]
     const customer_data = monthly_amount_response[1]
-    
     const response = {
-      "last_month": avg_last_month['total_amount'], 
-      "this_month": avg_this_month['total_amount'], 
+      "last_month": avg_last_month['total_qty'], 
+      "this_month": avg_this_month['total_qty'], 
       "customers": avg_customers['total_amount'], 
       "next_5": next_5_ships_response[0],
       "last_5": last_5_ships_response[0],
       "month_data": monthly_data, 
       "customer_data": customer_data
     }
-  
     
     return res.json(response);
   } catch (err) {
