@@ -25,8 +25,8 @@ exports.findAll = async (req, res) => {
     const last_month_orders_average = average(orders.filter(e => e.DataName == "last month avg customer").map(e => e.total_qty))
 
     const response = {
-      "this_month_family_ranking": this_month_family_ranking, 
-      "last_month_family_ranking": last_month_family_ranking, 
+      "this_month_family_ranking": this_month_family_ranking || 0, 
+      "last_month_family_ranking": last_month_family_ranking || 0, 
       "bar_chart_data": {
         "this_month_orders": orders.find(o => o.DataName == "this month avg customer" && o.month_del_date == current_month), 
         "last_month_orders": orders.find(o => o.DataName == "last month avg customer" && o.month_del_date == last_month),
