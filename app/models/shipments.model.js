@@ -46,8 +46,6 @@ Shipments.findById = async (req) => {
       "orders_open": orders_open[0]['ShipOpen']
     }
 
-    console.log(response)
-
   return response
   
 };

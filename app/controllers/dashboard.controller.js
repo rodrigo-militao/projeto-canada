@@ -11,7 +11,7 @@ exports.findAll = async (req, res) => {
     const current_month = new Date().getMonth() + 1;
     const last_month = current_month - 1;
 
-    const { this_month_family_ranking, last_month_family_ranking, in_transit, orders }  = await avg_amount.findById(req)
+    const { this_month_family_ranking, last_month_family_ranking, in_transit, orders, ontime }  = await avg_amount.findById(req)
 
     const monthly_amount_response  = await monthly_amount.findById(req)
     const last_5_ships_response  = await last_5_ships.findById(req)
@@ -23,6 +23,8 @@ exports.findAll = async (req, res) => {
     
     const this_month_orders_average = average(orders.filter(e => e.DataName == "this month avg customer").map(e => e.total_qty))
     const last_month_orders_average = average(orders.filter(e => e.DataName == "last month avg customer").map(e => e.total_qty))
+
+    const total_qtd_ontime = ontime.filter(e => e.on_time == "On-Time").length
 
     const response = {
       "this_month_family_ranking": this_month_family_ranking || 0, 
@@ -37,7 +39,8 @@ exports.findAll = async (req, res) => {
       "next_5": next_5_ships_response[0],
       "last_5": last_5_ships_response[0],
       "month_data": monthly_data, 
-      "customer_data": customer_data
+      "customer_data": customer_data,
+      "ontime": total_qtd_ontime / ontime.length * 100
     }
     
     return res.json(response);
