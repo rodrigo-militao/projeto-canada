@@ -30,7 +30,7 @@ Monthly_amount.findById = async (req) => {
     const req = await fetch(options.url, options)
     const data = await req.json()
 
-    array_results.push(data.length > 1 ? data : data[0])
+    array_results.push(data)
     
   }
 

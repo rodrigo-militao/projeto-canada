@@ -33,8 +33,8 @@ exports.findAll = async (req, res) => {
       "this_month_family_ranking": this_month_family_ranking || 0, 
       "last_month_family_ranking": last_month_family_ranking || 0, 
       "bar_chart_data": {
-        "this_month_orders": orders.find(o => o.DataName == "this month avg customer" && o.month_del_date == current_month), 
-        "last_month_orders": orders.find(o => o.DataName == "last month avg customer" && o.month_del_date == last_month),
+        "this_month_orders": orders.find(o => o.DataName == "this month avg customer" && o.month_del_date == current_month) ? orders.find(o => o.DataName == "this month avg customer" && o.month_del_date == current_month) : {total_qty: 0}, 
+        "last_month_orders": orders.find(o => o.DataName == "last month avg customer" && o.month_del_date == last_month) ? orders.find(o => o.DataName == "last month avg customer" && o.month_del_date == last_month) : {total_qty: 0},
         "this_month_orders_average": this_month_orders_average,
         "last_month_orders_average": last_month_orders_average,
       },
