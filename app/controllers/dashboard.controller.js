@@ -3,7 +3,10 @@ const monthly_amount = require("../models/monthly_amount.model");
 const last_5_ships = require("../models/last_5_ships.model");
 const next_5_ships = require("../models/next_5_ships.model");
 
-const average = (array) => array.reduce((a, b) => a + b) / array.length;
+const average = (array) => {
+  if (array.length === 0) return 0;
+  return array.reduce((a, b) => a + b) / array.length;
+}
 
 exports.findAll = async (req, res) => {
   
@@ -20,7 +23,7 @@ exports.findAll = async (req, res) => {
     const monthly_data = monthly_amount_response[0]
     const customer_data = monthly_amount_response[1]
 
-    
+    //console.log(orders)
     const this_month_orders_average = average(orders.filter(e => e.DataName == "this month avg customer").map(e => e.total_qty))
     const last_month_orders_average = average(orders.filter(e => e.DataName == "last month avg customer").map(e => e.total_qty))
 
@@ -45,6 +48,7 @@ exports.findAll = async (req, res) => {
     
     return res.json(response);
   } catch (err) {
+    console.error("error: ", err.message);
     res.status(500).send({error: err.message});
   }
 };
