@@ -24,7 +24,7 @@ User.create = (newuser, result) => {
 };
 
 User.check = (data, result) => {
-  sql.query(`select customer_id, email, customer_name, rule from db_shipping_cali.tbl_register where customer_id = ? and password = ?;`, [data.email, data.password] , (err, res) => {
+  sql.query(`select customer_id, email, customer_name, rule from db_shipping_cali.tbl_register where email = ? and password = ?;`, [data.email, data.password] , (err, res) => {
     //se ocorrer um erro
     if (err) {
       console.log("error: ", err);
